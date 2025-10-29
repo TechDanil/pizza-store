@@ -1,7 +1,7 @@
 @import "tailwindcss";
 
 /* Базовые стили */
-html {
+/* html {
   scroll-behavior: smooth;
 }
 
@@ -9,22 +9,20 @@ html {
   html {
     scroll-behavior: auto;
   }
-}
+} */
 
 :root {
   --border-color: #fe5f00;
-  --text-color: #fe5f00;
+  --text-orange: #fe5f00;
+  --text-grey: #ededed;
 }
 
 * {
-  font-family: var(--font-nunito), sans-serif;
-  border-color: var(--border-color);
   box-sizing: border-box;
+  /* color: var(--text-color); */
 }
 
-body {
-  /* background-color: var(--background); */
-  color: var(--text-color);
+/* body {
 }
 
 /* Кастомные утилиты */
