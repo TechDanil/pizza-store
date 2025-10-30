@@ -2,23 +2,14 @@ import { cn } from "@/lib/utils";
 import { FunctionComponent } from "react";
 
 type categoriesProps = {
+  categories: string[];
   externalClass?: string;
 };
-
-const categories = [
-  "Пиццы",
-  "Комбо",
-  "Закуски",
-  "Коктейли",
-  "Кофе",
-  "Напитки",
-  "Десерты",
-];
 
 const activeIndex = 0;
 
 export const Categories: FunctionComponent<categoriesProps> = (props) => {
-  const { externalClass } = props;
+  const { categories, externalClass } = props;
 
   return (
     <div
