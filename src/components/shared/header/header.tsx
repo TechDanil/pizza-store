@@ -3,7 +3,7 @@ import { cn } from "@/lib/utils";
 import { FunctionComponent } from "react";
 import Image from "next/image";
 import { Button } from "@/components/ui";
-import { ShoppingCart, User } from "lucide-react";
+import { ArrowRight, ShoppingCart, User } from "lucide-react";
 
 type Props = {
   externalClass?: string;
@@ -59,6 +59,10 @@ export const Header: FunctionComponent<Props> = (props) => {
                 />
                 <strong>{3}</strong>
               </div>
+              <ArrowRight
+                size={20}
+                className="absolute right-5 transition duration-300 -translate-x-2 opacity-0 group-hover:opacity-100 group-hover:translate-x-0"
+              /> 
             </Button>
           </div>
         </div>
