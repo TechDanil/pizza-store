@@ -1,12 +1,16 @@
 import { Container } from "@/components/shared/container/container";
 import { cn } from "@/lib/utils";
-import { FC, FunctionComponent } from "react";
+import { FunctionComponent } from "react";
 import Image from "next/image";
+import { Button } from "@/components/ui";
+import { ShoppingCart, User } from "lucide-react";
 
 type Props = {
   externalClass?: string;
 };
 
+const SHOPPING_CART_ICON_SIZE = 16;
+const USER_ICON_SIZE = 16;
 const LOGO_WIDTH = 35;
 const LOGO_HEIGHT = 35;
 
@@ -16,7 +20,7 @@ export const Header: FunctionComponent<Props> = (props) => {
   return (
     <header className={cn("border-b text-(--text-grey)", externalClass)}>
       <Container externalClass="flex items-center justify-between py-8">
-        <div>
+        <div className="flex items-center gap-4">
           <Image
             src="/logo.png"
             alt="Logo"
@@ -31,6 +35,31 @@ export const Header: FunctionComponent<Props> = (props) => {
             <p className="text-sm text-gray-400 leading-3">
               вкусней уже некуда
             </p>
+          </div>
+        </div>
+
+        <div className="flex items-center gap-3">
+          <Button
+            variant="outline"
+            className="cursor-pointer flex items-center rounded-2xl gap-1 border-(--button-border) text-(--text-orange)"
+          >
+            <User size={USER_ICON_SIZE} />
+            Войти
+          </Button>
+
+          <div>
+            <Button className="cursor-pointer bg-(--bg-orange) relative group">
+              <strong>520p</strong>
+              <span className="h-full w-px bg-white/30 mx-3" />
+              <div className="flex items-center gap-1 transition duration-300 group-hover:opacity-0">
+                <ShoppingCart
+                  size={SHOPPING_CART_ICON_SIZE}
+                  className="relative"
+                  strokeWidth={2}
+                />
+                <strong>{3}</strong>
+              </div>
+            </Button>
           </div>
         </div>
       </Container>
