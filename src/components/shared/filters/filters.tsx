@@ -3,10 +3,13 @@ import { FilterCheckbox } from "../filter-checkbox/filter-checkbox";
 import { Title } from "../title/title";
 import { FunctionComponent } from "react";
 import { RangeSlider } from "../range-slider/range-slider";
+import { CheckboxFiltersGroup } from "@/components/shared/checkbox-filters-group/checkbox-filters-group";
 
 type Props = {
   externalClass?: string;
 };
+
+export const DEFAULT_FILTERS_LIMIT = 4;
 
 export const Filters: FunctionComponent<Props> = (props) => {
   const { externalClass } = props;
@@ -41,6 +44,63 @@ export const Filters: FunctionComponent<Props> = (props) => {
 
         <RangeSlider min={0} max={5000} step={10} value={[0, 5000]} />
       </div>
+
+      <CheckboxFiltersGroup
+        title="Ингредиенты"
+        externalClass="mt-5"
+        defaultItems={[
+          {
+            text: "Сырный соус",
+            value: "1",
+          },
+          {
+            text: "Ветчина",
+            value: "2",
+          },
+          {
+            text: "Грибы",
+            value: "3",
+          },
+          {
+            text: "Ананасы",
+            value: "4",
+          },
+          {
+            text: "Чеддер",
+            value: "5",
+          },
+          {
+            text: "Бекон",
+            value: "6",
+          },
+        ]}
+        items={[
+          {
+            text: "Сырный соус",
+            value: "1",
+          },
+          {
+            text: "Ветчина",
+            value: "2",
+          },
+          {
+            text: "Грибы",
+            value: "3",
+          },
+          {
+            text: "Ананасы",
+            value: "4",
+          },
+          {
+            text: "Чеддер",
+            value: "5",
+          },
+          {
+            text: "Бекон",
+            value: "6",
+          },
+        ]}
+      />
     </div>
   );
 };

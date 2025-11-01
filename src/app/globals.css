@@ -50,7 +50,7 @@
 }
 
 /* Стили для nprogress */
-#nprogress .bar {
+/* #nprogress .bar {
   background: hsl(var(--primary)) !important;
 }
 
@@ -61,4 +61,13 @@
 #nprogress .spinner-icon {
   border-top-color: hsl(var(--primary)) !important;
   border-left-color: hsl(var(--primary)) !important;
+} */
+
+[data-radix-slider-thumb],
+[data-radix-switch-thumb],
+[data-radix-checkbox],
+[data-radix-radio] {
+  box-shadow: none !important;
+  border: none !important;
+  outline: none !important;
 }

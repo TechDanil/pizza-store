@@ -1,14 +1,8 @@
+import { CheckboxField } from "@/components/types/checkbox.type";
 import { Checkbox } from "@/components/ui";
-import { FunctionComponent, ReactNode } from "react";
+import { FunctionComponent } from "react";
 
-type Props = {
-  text: string;
-  value: string;
-  endAdornment?: ReactNode;
-  onCheckedChange?: (checked: boolean) => void;
-  checked?: boolean;
-  name?: string;
-};
+type Props = CheckboxField;
 
 export const FilterCheckbox: FunctionComponent<Props> = (props) => {
   const { text, value, endAdornment, onCheckedChange, checked, name } = props;
