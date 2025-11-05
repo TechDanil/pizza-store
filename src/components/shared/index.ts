@@ -6,3 +6,4 @@ export { SortPopup } from "./sort-popup/sort-popup";
 export { TopBar } from "./top-bar/top-bar";
 export { FilterCheckbox } from "./filter-checkbox/filter-checkbox";
 export { Filters } from "./filters/filters";
+export { ProductCard } from "./product-card/product-card";

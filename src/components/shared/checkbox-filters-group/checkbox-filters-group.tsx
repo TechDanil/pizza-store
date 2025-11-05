@@ -35,7 +35,7 @@ export const CheckboxFiltersGroup: FunctionComponent<Props> = (props) => {
   const [searchValue, setSearchValue] = useState("");
 
   const allItems = showAll
-    ? items.filter((item) =>
+    ? items.filter((item) => 
         item.text.toLocaleLowerCase().includes(searchValue.toLowerCase())
       )
     : defaultItems.slice(0, limit);

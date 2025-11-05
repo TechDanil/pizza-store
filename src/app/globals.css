@@ -11,6 +11,10 @@
   }
 } */
 
+@theme {
+  --secondary: 32 100% 98%;
+}
+
 :root {
   --border-color: #fe5f00;
   --text-orange: #fe5f00;
