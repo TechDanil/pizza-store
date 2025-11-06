@@ -1,15 +1,18 @@
+"use client";
+
 import { cn } from "@/lib/utils";
+import { useCategoryStore } from "@/store/category";
 import { FunctionComponent } from "react";
 
 type categoriesProps = {
-  categories: string[];
+  categories: { id: number; name: string }[];
   externalClass?: string;
 };
 
-const activeIndex = 0;
-
 export const Categories: FunctionComponent<categoriesProps> = (props) => {
   const { categories, externalClass } = props;
+
+  const categoryActiveId = useCategoryStore((state) => state.activeId);
 
   return (
     <div
@@ -22,12 +25,13 @@ export const Categories: FunctionComponent<categoriesProps> = (props) => {
         <a
           key={index}
           className={cn(
-            "flex items-center font-bold h-11 rounded-2xl px-5",
-            activeIndex === index &&
+            "flex items-center f. ont-bold h-11 rounded-2xl px-5",
+            categoryActiveId === category.id &&
               "bg-white shadow-md shadow-gray-200 text-(--text-orange)"
           )}
+          href={`/#${category.name}`}
         >
-          <button>{category}</button>
+          <button>{category.name}</button>
         </a>
       ))}
     </div>
