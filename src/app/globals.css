@@ -1,7 +1,8 @@
 @import "tailwindcss";
 
 /* Базовые стили */
-/* html {
+
+html {
   scroll-behavior: smooth;
 }
 
@@ -9,7 +10,7 @@
   html {
     scroll-behavior: auto;
   }
-} */
+}
 
 @theme {
   --color-primary: hsl(var(--primary));
