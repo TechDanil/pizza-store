@@ -36,10 +36,6 @@ html {
 }
 
 :root {
-  --border-color: #fe5f00;
-  --text-orange: #fe5f00;
-  --bg-orange: #fe5f00;
-  --text-grey: #ededed;
   --secondary: 32 100% 98%;
   --foreground: 20 14.3% 4.1%;
 
