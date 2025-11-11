@@ -68,10 +68,6 @@ html {
 
 * {
   box-sizing: border-box;
-  /* color: var(--text-color); */
-}
-
-/* body {
 }
 
 /* Кастомные утилиты */

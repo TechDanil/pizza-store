@@ -80,7 +80,7 @@ export const CheckboxFiltersGroup: FunctionComponent<Props> = (props) => {
         <div className={showAll ? "border-t border-t-neutral-100 mt-4" : ""}>
           <button
             onClick={onShowAllToggle}
-            className="text-(--text-orange) mt-3"
+            className="text-primary mt-3"
           >
             {showAll ? "Скрыть" : "+ По казать все"}
           </button>

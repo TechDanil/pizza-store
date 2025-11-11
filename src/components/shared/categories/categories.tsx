@@ -27,7 +27,7 @@ export const Categories: FunctionComponent<categoriesProps> = (props) => {
           className={cn(
             "flex items-center f. ont-bold h-11 rounded-2xl px-5",
             categoryActiveId === category.id &&
-              "bg-white shadow-md shadow-gray-200 text-(--text-orange)"
+              "bg-white shadow-md shadow-gray-200 text-primary"
           )}
           href={`/#${category.name}`}
         >

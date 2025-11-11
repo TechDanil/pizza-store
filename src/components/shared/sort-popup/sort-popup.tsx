@@ -20,7 +20,7 @@ export const SortPopup: FunctionComponent<Props> = (props) => {
     >
       <ArrowUpDown size={ARROW_SIZE} />
       <strong>Сортировка: </strong>
-      <strong className="text-(--text-orange)">популярное</strong>
+      <strong className="text-primary">популярное</strong>
     </div>
   ); 
 };

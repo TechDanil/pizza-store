@@ -18,7 +18,7 @@ export const Header: FunctionComponent<Props> = (props) => {
   const { externalClass } = props;
 
   return (
-    <header className={cn("border-b text-(--text-grey)", externalClass)}>
+    <header className={cn("border-secondary text-secondary", externalClass)}>
       <Container externalClass="flex items-center justify-between py-8">
         <div className="flex items-center gap-4">
           <Image
@@ -41,14 +41,14 @@ export const Header: FunctionComponent<Props> = (props) => {
         <div className="flex items-center gap-3">
           <Button
             variant="outline"
-            className="cursor-pointer flex items-center rounded-2xl gap-1 border-(--button-border) text-(--text-orange)"
+            className="cursor-pointer flex items-center rounded-2xl gap-1 border-primary text-primary"
           >
             <User size={USER_ICON_SIZE} />
             Войти
           </Button>
 
           <div>
-            <Button className="cursor-pointer bg-(--bg-orange) relative group">
+            <Button className="cursor-pointer bg-primary relative group">
               <strong>520p</strong>
               <span className="h-full w-px bg-white/30 mx-3" />
               <div className="flex items-center gap-1 transition duration-300 group-hover:opacity-0">
@@ -62,7 +62,7 @@ export const Header: FunctionComponent<Props> = (props) => {
               <ArrowRight
                 size={20}
                 className="absolute right-5 transition duration-300 -translate-x-2 opacity-0 group-hover:opacity-100 group-hover:translate-x-0"
-              /> 
+              />
             </Button>
           </div>
         </div>

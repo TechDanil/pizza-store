@@ -52,13 +52,13 @@ const RangeSlider = React.forwardRef(
         value={localValues}
         onValueChange={handleValueChange}
         className={cn(
-          "relative bg-(--bg-orange)/50 flex w-full touch-none select-none mb-6 items-center",
+          "relative bg-primary/50 flex w-full touch-none select-none mb-6 items-center",
           className
         )}
         {...props}
       >
         <SliderPrimitive.Track className="relative h-1 w-full grow overflow-hidden rounded-full">
-          <SliderPrimitive.Range className="absolute h-full bg-(--bg-orange)" />
+          <SliderPrimitive.Range className="absolute h-full bg-primary" />
         </SliderPrimitive.Track>
         {localValues.map((value, index) => (
           <React.Fragment key={index}>
@@ -75,7 +75,7 @@ const RangeSlider = React.forwardRef(
             </div>
             <SliderPrimitive.Thumb
               style={{ boxShadow: "none" }}
-              className="block h-4 w-4 bg-white rounded-full border border-(--text-orange) shadow transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50"
+              className="block h-4 w-4 bg-white rounded-full border border-primary shadow transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50"
             />
           </React.Fragment>
         ))}
