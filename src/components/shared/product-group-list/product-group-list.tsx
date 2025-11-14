@@ -28,7 +28,7 @@ export const ProductGroupList: FunctionComponent<Props> = (props) => {
     if (isIntersecting) {
       setActiveCategoryId(categoryId);
     }
-  }, [categoryId, isIntersecting, title]);
+  });
 
   return (
     <div className={externalClass} id={title} ref={ref}>
