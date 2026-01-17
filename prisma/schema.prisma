@@ -8,29 +8,161 @@ datasource db {
 }
 
 model User {
-    id Int @id @default(autoincrement())
-    
-    fullName String
-    email    String    @unique
-    password String
-    verified DateTime?
+  id Int @id @default(autoincrement())
+  
+  fullName String
+  email    String    @unique
+  password String
+  verified DateTime?
 
-    provider   String?
-    providerId String?
+  verificationCode VerificationCode?
+  provider   String?
+  providerId String?
 
-    createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
+  cart Cart?
+
+  orders Order[]
+
+  role UserRole @default(USER)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Category {
+  id  Int @id @default(autoincrement())
+  name String @unique
+  products Product[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 
 model Product {
-    id Int @id @default(autoincrement())
+  id Int @id @default(autoincrement())
 
-    name     String
-    imageUrl String
+  name     String
+  imageUrl String
 
-    categoryId Int
+  ingredients Ingredient[]
 
-    createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
+  items ProductItem[]
+  
+  category Category @relation(fields: [categoryId], references: [id])
+  categoryId Int
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Ingredient {
+  id Int @id @default(autoincrement())
+  name String
+
+  price Int
+  imageUrl String
+
+  products Product[]
+  cartItems CartItem[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model ProductItem {
+  id Int @id @default(autoincrement())
+  price Int
+
+  size Int?
+  pizzaType Int?
+
+  cartItems CartItem[]
+
+  product Product @relation(fields: [productId], references: [id])
+  productId Int @unique
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Cart {
+  id Int @id @default(autoincrement())
+
+  user User? @relation(fields: [userId], references: [id])
+  userId Int?  @unique
+
+  items CartItem[]
+
+  token String 
+
+  totalAmount Int @default(0)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model CartItem {
+  id Int @id @default(autoincrement())
+
+  productItem ProductItem @relation(fields: [productItemId], references: [id])
+  productItemId Int @unique
+  
+  cart Cart @relation(fields: [cartId], references: [id])
+  cartId Int @unique
+
+  quantity Int
+
+  ingredients Ingredient[]
+ 
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Order {
+  id Int @id @default(autoincrement())
+
+  user User? @relation(fields: [userId], references: [id])
+  userId Int? @unique
+
+  token String
+  totalAmount Int
+
+  status OrderStatus
+  paymentId String?
+
+  items Json
+   
+  fullName String
+  address String
+  email String
+  phone String
+  comment String?
+
+  createdAt DateTime @default(now())
+}
+
+model VerificationCode {
+  id Int @id @default(autoincrement())
+
+  expiresAt DateTime @default(now())
+  code String
+
+  user User @relation(fields: [userId], references: [id])
+  userId Int @unique
+
+  @@unique([code, userId])
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+  
+enum OrderStatus {
+  PENDING
+  SUCCEEDED
+  CANCELLED
+}
+
+enum UserRole {
+  ADMIN
+  USER
 }
