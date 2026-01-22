@@ -30,7 +30,7 @@ async function up() {
   })
 
    await prisma.product.createMany({
-    data: product s,
+    data: products,
   }) 
 }
  
