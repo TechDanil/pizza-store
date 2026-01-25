@@ -62,6 +62,6 @@ export const SearchInput: FunctionComponent<Props> = (props) => {
           </div>
         </div>
       </div>
-    </>
+    </> 
   );
 };
