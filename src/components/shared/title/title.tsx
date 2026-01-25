@@ -33,6 +33,6 @@ export const Title: FunctionComponent<Props> = (props) => {
   return createElement(
     mapTagBySize[size],
     { className: clsx(mapClassNameBySize[size], externalClass) },
-    text
+    text,
   );
 };

@@ -26,7 +26,7 @@ const RangeSlider = React.forwardRef(
       onValueChange,
       ...props
     }: Props,
-    ref
+    ref,
   ) => {
     const initialValue = Array.isArray(value) ? value : [min, max];
     const [localValues, setLocalValues] = React.useState(initialValue);
@@ -53,7 +53,7 @@ const RangeSlider = React.forwardRef(
         onValueChange={handleValueChange}
         className={cn(
           "relative bg-primary/50 flex w-full touch-none select-none mb-6 items-center",
-          className
+          className,
         )}
         {...props}
       >
@@ -81,7 +81,7 @@ const RangeSlider = React.forwardRef(
         ))}
       </SliderPrimitive.Root>
     );
-  }
+  },
 );
 
 RangeSlider.displayName = SliderPrimitive.Root.displayName;

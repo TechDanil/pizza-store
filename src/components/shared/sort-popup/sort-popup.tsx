@@ -15,12 +15,12 @@ export const SortPopup: FunctionComponent<Props> = (props) => {
     <div
       className={cn(
         "inline-flex items-center gap-1 bg-gray-50 px-5 h-[52px] rounded-2xl cursor-pointer",
-        externalName
+        externalName,
       )}
     >
       <ArrowUpDown size={ARROW_SIZE} />
       <strong>Сортировка: </strong>
       <strong className="text-primary">популярное</strong>
     </div>
-  ); 
+  );
 };

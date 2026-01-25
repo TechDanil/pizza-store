@@ -35,11 +35,11 @@ export const CheckboxFiltersGroup: FunctionComponent<Props> = (props) => {
   const [searchValue, setSearchValue] = useState("");
 
   const allItems = showAll
-    ? items.filter((item) => 
-        item.text.toLocaleLowerCase().includes(searchValue.toLowerCase())
+    ? items.filter((item) =>
+        item.text.toLocaleLowerCase().includes(searchValue.toLowerCase()),
       )
     : defaultItems.slice(0, limit);
- 
+
   const onShowAllToggle = () => {
     setShowAll(!showAll);
   };
@@ -78,10 +78,7 @@ export const CheckboxFiltersGroup: FunctionComponent<Props> = (props) => {
 
       {items.length > limit && (
         <div className={showAll ? "border-t border-t-neutral-100 mt-4" : ""}>
-          <button
-            onClick={onShowAllToggle}
-            className="text-primary mt-3"
-          >
+          <button onClick={onShowAllToggle} className="text-primary mt-3">
             {showAll ? "Скрыть" : "+ По казать все"}
           </button>
         </div>
