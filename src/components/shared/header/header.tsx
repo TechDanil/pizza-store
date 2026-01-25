@@ -4,6 +4,8 @@ import { FunctionComponent } from "react";
 import Image from "next/image";
 import { Button } from "@/components/ui";
 import { ArrowRight, ShoppingCart, User } from "lucide-react";
+import Link from "next/link";
+import { SearchInput } from "@/components/shared";
 
 type Props = {
   externalClass?: string;
@@ -18,24 +20,22 @@ export const Header: FunctionComponent<Props> = (props) => {
   const { externalClass } = props;
 
   return (
-    <header className={cn("border-secondary text-secondary", externalClass)}>
+    <header className={cn("border-b", externalClass)}>
       <Container externalClass="flex items-center justify-between py-8">
-        <div className="flex items-center gap-4">
-          <Image
-            src="/logo.png"
-            alt="Logo"
-            width={LOGO_WIDTH}
-            height={LOGO_HEIGHT}
-          />
-
-          <div>
-            <h1 className="text-2xl text-black uppercase font-black">
-              Next Pizza
-            </h1>
-            <p className="text-sm text-gray-400 leading-3">
-              вкусней уже некуда
-            </p>
+        <Link href="/">
+          <div className="flex items-center gap-4">
+            <Image src="/logo.png" alt="Logo" width={LOGO_WIDTH} height={LOGO_HEIGHT} />
+            <div>
+              <h1 className="text-2xl uppercase font-black">Next Pizza</h1>
+              <p className="text-sm text-gray-400 leading-3">
+                вкусней уже некуда
+              </p>
+            </div>
           </div>
+        </Link>
+
+        <div className="mx flex-1">
+          <SearchInput />
         </div>
 
         <div className="flex items-center gap-3">
