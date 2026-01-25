@@ -24,7 +24,12 @@ export const Header: FunctionComponent<Props> = (props) => {
       <Container externalClass="flex items-center justify-between py-8">
         <Link href="/">
           <div className="flex items-center gap-4">
-            <Image src="/logo.png" alt="Logo" width={LOGO_WIDTH} height={LOGO_HEIGHT} />
+            <Image
+              src="/logo.png"
+              alt="Logo"
+              width={LOGO_WIDTH}
+              height={LOGO_HEIGHT}
+            />
             <div>
               <h1 className="text-2xl uppercase font-black">Next Pizza</h1>
               <p className="text-sm text-gray-400 leading-3">
