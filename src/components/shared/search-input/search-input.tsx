@@ -2,6 +2,7 @@
 
 import { cn } from "@/lib";
 import { Search } from "lucide-react";
+import Link from "next/link";
 import { FunctionComponent, useRef, useState } from "react";
 import { useClickAway } from "react-use";
 
@@ -43,6 +44,23 @@ export const SearchInput: FunctionComponent<Props> = (props) => {
           placeholder="Найти пиццу..."
           onFocus={handleFocus}
         />
+
+        <div
+          className={cn(
+            "absolute w-full bg-white rounded-xl py-2 top-14 shadow-md transition-all duration-200 invisible opacity-0 z-30",
+            focus && "visible opacity-100 top-12",
+          )}
+        >
+          <div className="px-3 py-2 hover:bg-primary/10 cursor-pointer">
+            <Link
+              className="flex items-center gap-3 w-full px-3 py-2 hover:bg-primary/10"
+              href="/products/1 "
+            >
+              <img src="" alt="" width={20} height={20} />
+              <p>Пицца</p>
+            </Link>
+          </div>
+        </div>
       </div>
     </>
   );
