@@ -1,10 +1,12 @@
 "use client";
 
 import { cn } from "@/lib";
+import { Api } from "@/services";
+import { Product } from "@prisma/client";
 import { Search } from "lucide-react";
 import Link from "next/link";
-import { FunctionComponent, useRef, useState } from "react";
-import { useClickAway } from "react-use";
+import { ChangeEvent, FunctionComponent, useRef, useState } from "react";
+import { useClickAway, useDebounce } from "react-use";
 
 type Props = {
   externalClass?: string;
@@ -12,17 +14,42 @@ type Props = {
 
 export const SearchInput: FunctionComponent<Props> = (props) => {
   const { externalClass } = props;
+
+  const [searchQuery, setSearchQuery] = useState("");
+
+  const [products, setProducts] = useState<Product[]>([]);
+
   const ref = useRef<HTMLInputElement>(null);
 
   const [focus, setFocus] = useState(false);
+
+  useDebounce(() => {
+    Api.products.search(searchQuery).then((response) => {
+      setProducts(response);
+    });
+  }, 
+  100,
+  [searchQuery]);
 
   useClickAway(ref, () => {
     setFocus(false);
   });
 
-  const handleFocus = () => {
+  const onSearchQueryChange = (
+    event: ChangeEvent<HTMLInputElement>,
+  ) => {
+    setSearchQuery(event.target.value);
+  };
+
+  const onFocus = () => {
     setFocus(true);
   };
+
+  const onClickItem = () => {
+    setFocus(false); 
+    setSearchQuery("");
+    setProducts([]);
+  }
 
   return (
     <>
@@ -42,26 +69,36 @@ export const SearchInput: FunctionComponent<Props> = (props) => {
           className="rounded-2xl outline-none w-full bg-gray-100 pl-11"
           type="text"
           placeholder="Найти пиццу..."
-          onFocus={handleFocus}
+          value={searchQuery}
+          onFocus={onFocus}
+          onChange={onSearchQueryChange}
         />
 
-        <div
-          className={cn(
-            "absolute w-full bg-white rounded-xl py-2 top-14 shadow-md transition-all duration-200 invisible opacity-0 z-30",
-            focus && "visible opacity-100 top-12",
-          )}
-        >
-          <div className="px-3 py-2 hover:bg-primary/10 cursor-pointer">
-            <Link
-              className="flex items-center gap-3 w-full px-3 py-2 hover:bg-primary/10"
-              href="/products/1 "
-            >
-              <img src="" alt="" width={20} height={20} />
-              <p>Пицца</p>
-            </Link>
+        {products.length > 0 && (
+          <div
+            className={cn(
+              "absolute w-full bg-white rounded-xl py-2 top-14 shadow-md transition-all duration-200 invisible opacity-0 z-30",
+              focus && "visible opacity-100 top-12",
+            )}
+          >
+            {products.map((product) => (
+              <Link
+                onClick={onClickItem}
+                key={product.id}
+                className="flex items-center gap-3 w-full px-3 py-2 hover:bg-primary/10"
+                href={`/product/${product.id}`}
+              >
+                <img
+                  className="rounded-sm h-8 w-8"
+                  src={product.imageUrl}
+                  alt={product.name}
+                />
+                <span>{product.name}</span>
+              </Link>
+            ))}
           </div>
-        </div>
+        )}
       </div>
-    </> 
+    </>
   );
 };
