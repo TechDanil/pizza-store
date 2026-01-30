@@ -23,21 +23,24 @@ export const SearchInput: FunctionComponent<Props> = (props) => {
 
   const [focus, setFocus] = useState(false);
 
-  useDebounce(() => {
-    Api.products.search(searchQuery).then((response) => {
-      setProducts(response);
-    });
-  }, 
-  100,
-  [searchQuery]);
+  useDebounce(
+    async () => {
+      try {
+        const response = await Api.products.search(searchQuery);
+        setProducts(response);
+      } catch (error) {
+        console.error(error);
+      }
+    },
+    100,
+    [searchQuery],
+  );
 
   useClickAway(ref, () => {
     setFocus(false);
   });
 
-  const onSearchQueryChange = (
-    event: ChangeEvent<HTMLInputElement>,
-  ) => {
+  const onSearchQueryChange = (event: ChangeEvent<HTMLInputElement>) => {
     setSearchQuery(event.target.value);
   };
 
@@ -46,10 +49,10 @@ export const SearchInput: FunctionComponent<Props> = (props) => {
   };
 
   const onClickItem = () => {
-    setFocus(false); 
+    setFocus(false);
     setSearchQuery("");
     setProducts([]);
-  }
+  };
 
   return (
     <>

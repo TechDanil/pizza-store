@@ -3,7 +3,7 @@
 import { DEFAULT_FILTERS_LIMIT } from "@/components/shared/filters/filters";
 import { FilterCheckbox } from "../filter-checkbox/filter-checkbox";
 import { CheckboxField } from "@/components/types/checkbox.type";
-import { Input } from "@/components/ui";
+import { Input, Skeleton } from "@/components/ui";
 import { ChangeEvent, FunctionComponent, useState } from "react";
 
 type Item = CheckboxField;
@@ -11,12 +11,15 @@ type Item = CheckboxField;
 type Props = {
   title: string;
   items: Item[];
-  defaultItems: Item[];
+  defaultItems?: Item[];
+  loading?: boolean;
   limit?: number;
+  selected?: Set<string>;
   searchInputPlaceholder?: string;
-  obChange?: (selectedItems: Item[]) => void;
+  onClickCheckbox?: (id: string) => void;
   defaultSelectedItems?: Item[];
   externalClass?: string;
+  name?: string;
 };
 
 export const CheckboxFiltersGroup: FunctionComponent<Props> = (props) => {
@@ -24,11 +27,14 @@ export const CheckboxFiltersGroup: FunctionComponent<Props> = (props) => {
     title,
     items,
     defaultItems,
+    loading,
     limit = DEFAULT_FILTERS_LIMIT,
+    selected,
     searchInputPlaceholder = "Search... ",
-    obChange,
     defaultSelectedItems,
     externalClass,
+    name,
+    onClickCheckbox,
   } = props;
 
   const [showAll, setShowAll] = useState(false);
@@ -38,8 +44,8 @@ export const CheckboxFiltersGroup: FunctionComponent<Props> = (props) => {
     ? items.filter((item) =>
         item.text.toLocaleLowerCase().includes(searchValue.toLowerCase()),
       )
-    : defaultItems.slice(0, limit);
-
+    : (defaultItems ?? items).slice(0, limit);
+ 
   const onShowAllToggle = () => {
     setShowAll(!showAll);
   };
@@ -47,6 +53,20 @@ export const CheckboxFiltersGroup: FunctionComponent<Props> = (props) => {
   const onChangeSearchInput = (event: ChangeEvent<HTMLInputElement>) => {
     setSearchValue(event.target.value);
   };
+
+  if (loading) {
+    return (
+      <div className={externalClass}>
+        <p className="font-bold mb-3">{title}</p>
+
+        {Array.from({ length: limit }).map((_, index) => (
+          <Skeleton key={index} className="h-6 mb-4 rounded-md" />
+        ))}
+
+        <Skeleton className="w-28 h-6 mb-4 rounded-md" />
+      </div>
+    );
+  }
 
   return (
     <div className={externalClass}>
@@ -69,9 +89,9 @@ export const CheckboxFiltersGroup: FunctionComponent<Props> = (props) => {
             text={item.text}
             value={item.value}
             endAdornment={item.endAdornment}
-            onCheckedChange={item.onCheckedChange}
-            checked={item.checked}
-            name={item.name}
+            onCheckedChange={() => onClickCheckbox?.(item.value)}
+            checked={selected?.has(item.value)}
+            name={name}
           />
         ))}
       </div>
