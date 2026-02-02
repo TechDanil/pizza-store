@@ -3,7 +3,6 @@ import { ProductGroupList } from "@/components/shared/product-group-list/product
 import { Api } from "@/services";
 
 export default async function Home() {
-
   return (
     <>
       <Container externalClass="mt-10 ">

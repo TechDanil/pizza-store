@@ -2,35 +2,63 @@
 
 import { Input } from "@/components/ui";
 import { Title } from "../title/title";
-import { FunctionComponent, useMemo, useState } from "react";
+import { FunctionComponent, useCallback, useMemo, useState } from "react";
 import { RangeSlider } from "../range-slider/range-slider";
 import { CheckboxFiltersGroup } from "@/components/shared/checkbox-filters-group/checkbox-filters-group";
 import { useFilterIngredients } from "@/hooks/use-filter-ingredients";
 import { useSet } from "react-use";
+import { useSyncFiltersToUrl } from "@/hooks/use-sync-filters-to-url";
+import type { PriceRange } from "./types";
+import {
+  DEFAULT_FILTERS_LIMIT,
+  PRICE_FILTER,
+  PIZZA_TYPES,
+  SIZES,
+} from "./constants";
+import { cn } from "@/lib";
 
-type Props = {
-  externalClass?: string;
+export { DEFAULT_FILTERS_LIMIT } from "./constants";
+
+type FiltersProps = {
+  className?: string;
 };
 
-export const DEFAULT_FILTERS_LIMIT = 4;
+const clamp = (value: number, min: number, max: number) =>
+  Math.min(Math.max(value, min), max);
 
-export const Filters: FunctionComponent<Props> = (props) => {
-  const { externalClass } = props;
+const FilterSection: FunctionComponent<{
+  title: string;
+  className?: string;
+  children: React.ReactNode;
+}> = ({ title, className, children }) => (
+  <section className={cn("border-b border-neutral-100 py-5 first:pt-0 last:border-b-0", className)}>
+    <h3 className="text-sm font-semibold text-foreground mb-4">{title}</h3>
+    {children}
+  </section>
+);
 
-  const [price, setPrice] = useState<{
-    priceFrom: number;
-    priceTo: number;
-  }>({ priceFrom: 0, priceTo: 3000 });
+export const Filters: FunctionComponent<FiltersProps> = ({
+  className,
+}) => {
+  const rootClassName = className;
+  const [price, setPrice] = useState<PriceRange>({
+    from: PRICE_FILTER.DEFAULT_FROM,
+    to: PRICE_FILTER.DEFAULT_TO,
+  });
 
-  const [sizes, { toggle: onAddSize }] = useSet(new Set<string>([]));
+  const [sizes, { toggle: toggleSize }] = useSet(new Set<string>());
+  const [pizzaTypes, { toggle: togglePizzaType }] = useSet(new Set<string>());
+  const { ingredients, selectedIngredientsIds, onSelectIngredient } =
+    useFilterIngredients();
 
-  const { ingredients, selectedIds, onAddId } = useFilterIngredients();
+  useSyncFiltersToUrl({
+    price,
+    sizes,
+    pizzaTypes,
+    ingredientIds: selectedIngredientsIds,
+  });
 
-  const [pizzaTypes, { toggle: onAddPizzaType }] = useSet(new Set<string>([]));
-
-  const loading = ingredients.length === 0;
-
-  const items = useMemo(
+  const ingredientItems = useMemo(
     () =>
       ingredients.map((ingredient) => ({
         text: ingredient.name,
@@ -39,83 +67,114 @@ export const Filters: FunctionComponent<Props> = (props) => {
     [ingredients],
   );
 
-  const updatePrice = (key: keyof typeof price, value: number) => {
-    setPrice((prev) => ({ ...prev, [key]: value }));
-  };
+  const setPriceFrom = useCallback(
+    (from: number) => {
+      const value = Number.isNaN(from) ? PRICE_FILTER.DEFAULT_FROM : from;
+      setPrice((prev) => ({
+        ...prev,
+        from: clamp(value, PRICE_FILTER.MIN, Math.min(prev.to, PRICE_FILTER.MAX)),
+      }));
+    },
+    [],
+  );
 
-  const onPriceFromChange = (priceFrom: number) => {
-    updatePrice("priceFrom", priceFrom);
-  };
+  const setPriceTo = useCallback(
+    (to: number) => {
+      const value = Number.isNaN(to) ? PRICE_FILTER.DEFAULT_TO : to;
+      setPrice((prev) => ({
+        ...prev,
+        to: clamp(value, Math.max(prev.from, PRICE_FILTER.MIN), PRICE_FILTER.MAX),
+      }));
+    },
+    [],
+  );
 
-  const onPriceToChange = (priceTo: number) => {
-    updatePrice("priceTo", priceTo);
-  };
+  const setPriceRange = useCallback(([from, to]: number[]) => {
+    setPrice({
+      from: clamp(from, PRICE_FILTER.MIN, PRICE_FILTER.MAX),
+      to: clamp(to, PRICE_FILTER.MIN, PRICE_FILTER.MAX),
+    });
+  }, []);
 
   return (
-    <div className={externalClass}>
-      <Title text="Фильтрация" size="sm" externalClass="mb-5 font-bold" />
-
-      <CheckboxFiltersGroup
-        loading={loading}
-        title="Тип теста"
-        name="pizza-types"
-        externalClass="mb-5"
-        items={[
-          { text: "Тонкое", value: "1" },
-          { text: "Традиционное", value: "2" },
-        ]}
-        onClickCheckbox={onAddPizzaType}
-        selected={pizzaTypes}
+    <aside className={cn("flex flex-col", rootClassName)} aria-label="Фильтры">
+      <Title
+        text="Фильтрация"
+        size="sm"
+        externalClass="font-semibold mb-6 text-foreground"
       />
 
-      <CheckboxFiltersGroup
-        loading={loading}
-        title="Размеры"
-        name="sizes"
-        externalClass="mb-5"
-        items={[
-          { text: "20 см", value: "20" },
-          { text: "30 см", value: "30" },
-          { text: "40 см", value: "40" },
-        ]}
-        onClickCheckbox={onAddSize}
-        selected={sizes}
-      />
-
-      <div className="mt-5 border-y border-y-neutral-100 py-6 pb-7">
-        <p className="font-bold mb-3">Цена от и до</p>
-        <div className="flex mb-5 gap-3">
-          <Input
-            type="number"
-            value={price.priceFrom}
-            onChange={(e) => onPriceFromChange(Number(e.target.value))}
+      <div className="flex flex-col">
+        <FilterSection title="Тип теста">
+          <CheckboxFiltersGroup
+            name="pizza-types"
+            title=""
+            items={[...PIZZA_TYPES]}
+            onClickCheckbox={togglePizzaType}
+            selected={pizzaTypes}
           />
-          <Input
-            type="number"
-            value={price.priceTo}
-            onChange={(e) => onPriceToChange(Number(e.target.value))}
-          />
-        </div>
+        </FilterSection>
 
-        <RangeSlider
-          min={0}
-          max={5000}
-          step={10}
-          value={[price.priceFrom, price.priceTo]}
-          onValueChange={([priceFrom, priceTo]) => setPrice({ priceFrom, priceTo })}
-        />
+        <FilterSection title="Размер">
+          <CheckboxFiltersGroup
+            name="sizes"
+            title=""
+            items={[...SIZES]}
+            onClickCheckbox={toggleSize}
+            selected={sizes}
+          />
+        </FilterSection>
+
+        <FilterSection title="Цена, ₽">
+          <div className="flex gap-3 items-end">
+            <label className="flex flex-col gap-1.5 flex-1 min-w-0">
+              <span className="text-xs text-muted-foreground">от</span>
+              <Input
+                type="number"
+                min={PRICE_FILTER.MIN}
+                max={PRICE_FILTER.MAX}
+                value={price.from}
+                onChange={(e) => setPriceFrom(Number(e.target.value))}
+                className="h-9"
+              />
+            </label>
+            <span className="text-muted-foreground pb-2" aria-hidden>
+              –
+            </span>
+            <label className="flex flex-col gap-1.5 flex-1 min-w-0">
+              <span className="text-xs text-muted-foreground">до</span>
+              <Input
+                type="number"
+                min={PRICE_FILTER.MIN}
+                max={PRICE_FILTER.MAX}
+                value={price.to}
+                onChange={(e) => setPriceTo(Number(e.target.value))}
+                className="h-9"
+              />
+            </label>
+          </div>
+          <div className="mt-4">
+            <RangeSlider
+              min={PRICE_FILTER.MIN}
+              max={PRICE_FILTER.MAX}
+              step={PRICE_FILTER.STEP}
+              value={[price.from, price.to]}
+              onValueChange={setPriceRange}
+            />
+          </div>
+        </FilterSection>
+
+        <FilterSection title="Ингредиенты" className="pb-0">
+          <CheckboxFiltersGroup
+            name="ingredients"
+            title=""
+            defaultItems={ingredientItems.slice(0, DEFAULT_FILTERS_LIMIT)}
+            items={ingredientItems}
+            onClickCheckbox={onSelectIngredient}
+            selected={selectedIngredientsIds}
+          />
+        </FilterSection>
       </div>
-
-      <CheckboxFiltersGroup
-        loading={loading}
-        title="Ингредиенты"
-        name="ingredients"
-        externalClass="mt-5"
-        defaultItems={items.slice(0, DEFAULT_FILTERS_LIMIT)}
-        items={items}
-        onClickCheckbox={onAddId}
-        selected={selectedIds}
-      />
-    </div>
+    </aside>
   );
 };

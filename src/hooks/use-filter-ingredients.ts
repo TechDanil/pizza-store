@@ -6,7 +6,9 @@ import { useSet } from "react-use";
 export const useFilterIngredients = () => {
   const [ingredients, setIngredients] = useState<Ingredient[]>([]);
 
-  const [selectedIds, { toggle: onAddId }] = useSet(new Set<string>([]));
+  const [selectedIngredientsIds, { toggle: onSelectIngredient }] = useSet(
+    new Set<string>([]),
+  );
 
   useEffect(() => {
     (async () => {
@@ -19,5 +21,5 @@ export const useFilterIngredients = () => {
     })();
   }, []);
 
-  return { ingredients, selectedIds, onAddId };
+  return { ingredients, selectedIngredientsIds, onSelectIngredient };
 };

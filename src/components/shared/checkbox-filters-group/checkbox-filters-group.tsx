@@ -12,7 +12,6 @@ type Props = {
   title: string;
   items: Item[];
   defaultItems?: Item[];
-  loading?: boolean;
   limit?: number;
   selected?: Set<string>;
   searchInputPlaceholder?: string;
@@ -27,7 +26,6 @@ export const CheckboxFiltersGroup: FunctionComponent<Props> = (props) => {
     title,
     items,
     defaultItems,
-    loading,
     limit = DEFAULT_FILTERS_LIMIT,
     selected,
     searchInputPlaceholder = "Search... ",
@@ -40,12 +38,14 @@ export const CheckboxFiltersGroup: FunctionComponent<Props> = (props) => {
   const [showAll, setShowAll] = useState(false);
   const [searchValue, setSearchValue] = useState("");
 
+  const loading = items.length === 0;
+
   const allItems = showAll
     ? items.filter((item) =>
         item.text.toLocaleLowerCase().includes(searchValue.toLowerCase()),
       )
     : (defaultItems ?? items).slice(0, limit);
- 
+
   const onShowAllToggle = () => {
     setShowAll(!showAll);
   };
@@ -70,7 +70,7 @@ export const CheckboxFiltersGroup: FunctionComponent<Props> = (props) => {
 
   return (
     <div className={externalClass}>
-      <p className="font-bold mb-3">{title}</p>
+      {title ? <p className="font-bold mb-3">{title}</p> : null}
 
       {showAll && (
         <div className="mb-5">
@@ -99,7 +99,7 @@ export const CheckboxFiltersGroup: FunctionComponent<Props> = (props) => {
       {items.length > limit && (
         <div className={showAll ? "border-t border-t-neutral-100 mt-4" : ""}>
           <button onClick={onShowAllToggle} className="text-primary mt-3">
-            {showAll ? "Скрыть" : "+ По казать все"}
+            {showAll ? "Скрыть" : "+ Показать все"}
           </button>
         </div>
       )}
