@@ -35,12 +35,8 @@ const buildQueryParams = (params: UseSyncFiltersToUrlParams): FilterQueryParams 
   return query;
 }
 
-export const useSyncFiltersToUrl = ({
-  price,
-  sizes,
-  pizzaTypes,
-  ingredientIds,
-}: UseSyncFiltersToUrlParams) => {
+export const useSyncFiltersToUrl = (props: UseSyncFiltersToUrlParams) => {
+  const { price, sizes, pizzaTypes, ingredientIds } = props;
   const router = useRouter();
   const pathname = usePathname();
 
