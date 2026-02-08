@@ -2,179 +2,106 @@
 
 import { Input } from "@/components/ui";
 import { Title } from "../title/title";
-import { FunctionComponent, useCallback, useMemo, useState } from "react";
+import { FunctionComponent } from "react";
 import { RangeSlider } from "../range-slider/range-slider";
 import { CheckboxFiltersGroup } from "@/components/shared/checkbox-filters-group/checkbox-filters-group";
-import { useFilterIngredients } from "@/hooks/use-filter-ingredients";
-import { useSet } from "react-use";
-import { useSyncFiltersToUrl } from "@/hooks/use-sync-filters-to-url";
-import type { PriceRange } from "./types";
-import {
-  DEFAULT_FILTERS_LIMIT,
-  PRICE_FILTER,
-  PIZZA_TYPES,
-  SIZES,
-} from "./constants";
-import { cn } from "@/lib";
+import { useFilters, useIngredients, useSyncFiltersToUrl } from "@/hooks";
 
-export { DEFAULT_FILTERS_LIMIT } from "./constants";
-
-type FiltersProps = {
+type Props = {
   className?: string;
 };
 
-const clamp = (value: number, min: number, max: number) =>
-  Math.min(Math.max(value, min), max);
+export const DEFAULT_FILTERS_LIMIT = 4;
 
-const FilterSection: FunctionComponent<{
-  title: string;
-  className?: string;
-  children: React.ReactNode;
-}> = ({ title, className, children }) => (
-  <section className={cn("border-b border-neutral-100 py-5 first:pt-0 last:border-b-0", className)}>
-    <h3 className="text-sm font-semibold text-foreground mb-4">{title}</h3>
-    {children}
-  </section>
-);
+export const Filters: FunctionComponent<Props> = (props) => {
+  const { className } = props;
 
-export const Filters: FunctionComponent<FiltersProps> = ({
-  className,
-}) => {
-  const rootClassName = className;
-  const [price, setPrice] = useState<PriceRange>({
-    from: PRICE_FILTER.DEFAULT_FROM,
-    to: PRICE_FILTER.DEFAULT_TO,
-  });
-
-  const [sizes, { toggle: toggleSize }] = useSet(new Set<string>());
-  const [pizzaTypes, { toggle: togglePizzaType }] = useSet(new Set<string>());
-  const { ingredients, selectedIngredientsIds, onSelectIngredient } =
-    useFilterIngredients();
-
+  const { ingredients, isLoading } = useIngredients();
+  const filters = useFilters();
+  
   useSyncFiltersToUrl({
-    price,
-    sizes,
-    pizzaTypes,
-    ingredientIds: selectedIngredientsIds,
+    price: { from: filters.prices.priceFrom, to: filters.prices.priceTo },
+    sizes: filters.sizes,
+    pizzaTypes: filters.pizzaTypes,
+    ingredientIds: filters.selectedIngredients,
   });
 
-  const ingredientItems = useMemo(
-    () =>
-      ingredients.map((ingredient) => ({
-        text: ingredient.name,
-        value: ingredient.id.toString(),
-      })),
-    [ingredients],
-  );
+  const items = ingredients.map((item) => ({ value: String(item.id), text: item.name }));
 
-  const setPriceFrom = useCallback(
-    (from: number) => {
-      const value = Number.isNaN(from) ? PRICE_FILTER.DEFAULT_FROM : from;
-      setPrice((prev) => ({
-        ...prev,
-        from: clamp(value, PRICE_FILTER.MIN, Math.min(prev.to, PRICE_FILTER.MAX)),
-      }));
-    },
-    [],
-  );
-
-  const setPriceTo = useCallback(
-    (to: number) => {
-      const value = Number.isNaN(to) ? PRICE_FILTER.DEFAULT_TO : to;
-      setPrice((prev) => ({
-        ...prev,
-        to: clamp(value, Math.max(prev.from, PRICE_FILTER.MIN), PRICE_FILTER.MAX),
-      }));
-    },
-    [],
-  );
-
-  const setPriceRange = useCallback(([from, to]: number[]) => {
-    setPrice({
-      from: clamp(from, PRICE_FILTER.MIN, PRICE_FILTER.MAX),
-      to: clamp(to, PRICE_FILTER.MIN, PRICE_FILTER.MAX),
-    });
-  }, []);
+  const updatePrices = (prices: number[]) => {
+    filters.setPrices('priceFrom', prices[0]);
+    filters.setPrices('priceTo', prices[1]);
+  };
 
   return (
-    <aside className={cn("flex flex-col", rootClassName)} aria-label="Фильтры">
-      <Title
-        text="Фильтрация"
-        size="sm"
-        externalClass="font-semibold mb-6 text-foreground"
+   <div className={className}>
+      <Title text="Фильтрация" size="sm" externalClass="mb-5 font-bold" />
+
+      <CheckboxFiltersGroup
+        title="Тип теста"
+        name="pizzaTypes"
+        externalClass="mb-5"
+        onClickCheckbox={filters.setPizzaTypes}
+        selected={filters.pizzaTypes}
+        items={[
+          { text: 'Тонкое', value: '1' },
+          { text: 'Традиционное', value: '2' },
+        ]}
       />
 
-      <div className="flex flex-col">
-        <FilterSection title="Тип теста">
-          <CheckboxFiltersGroup
-            name="pizza-types"
-            title=""
-            items={[...PIZZA_TYPES]}
-            onClickCheckbox={togglePizzaType}
-            selected={pizzaTypes}
-          />
-        </FilterSection>
+      <CheckboxFiltersGroup
+        title="Размеры"
+        name="sizes"
+        externalClass="mb-5"
+        onClickCheckbox={filters.setSizes}
+        selected={filters.sizes}
+        items={[
+          { text: '20 см', value: '20' },
+          { text: '30 см', value: '30' },
+          { text: '40 см', value: '40' },
+        ]}
+      />
 
-        <FilterSection title="Размер">
-          <CheckboxFiltersGroup
-            name="sizes"
-            title=""
-            items={[...SIZES]}
-            onClickCheckbox={toggleSize}
-            selected={sizes}
+      <div className="mt-5 border-y border-y-neutral-100 py-6 pb-7">
+        <p className="font-bold mb-3">Цена от и до:</p>
+        <div className="flex gap-3 mb-5">
+          <Input
+            type="number"
+            placeholder="0"
+            min={0}
+            max={1000}
+            value={String(filters.prices.priceFrom)}
+            onChange={(e) => filters.setPrices('priceFrom', Number(e.target.value))}
           />
-        </FilterSection>
-
-        <FilterSection title="Цена, ₽">
-          <div className="flex gap-3 items-end">
-            <label className="flex flex-col gap-1.5 flex-1 min-w-0">
-              <span className="text-xs text-muted-foreground">от</span>
-              <Input
-                type="number"
-                min={PRICE_FILTER.MIN}
-                max={PRICE_FILTER.MAX}
-                value={price.from}
-                onChange={(e) => setPriceFrom(Number(e.target.value))}
-                className="h-9"
-              />
-            </label>
-            <span className="text-muted-foreground pb-2" aria-hidden>
-              –
-            </span>
-            <label className="flex flex-col gap-1.5 flex-1 min-w-0">
-              <span className="text-xs text-muted-foreground">до</span>
-              <Input
-                type="number"
-                min={PRICE_FILTER.MIN}
-                max={PRICE_FILTER.MAX}
-                value={price.to}
-                onChange={(e) => setPriceTo(Number(e.target.value))}
-                className="h-9"
-              />
-            </label>
-          </div>
-          <div className="mt-4">
-            <RangeSlider
-              min={PRICE_FILTER.MIN}
-              max={PRICE_FILTER.MAX}
-              step={PRICE_FILTER.STEP}
-              value={[price.from, price.to]}
-              onValueChange={setPriceRange}
-            />
-          </div>
-        </FilterSection>
-
-        <FilterSection title="Ингредиенты" className="pb-0">
-          <CheckboxFiltersGroup
-            name="ingredients"
-            title=""
-            defaultItems={ingredientItems.slice(0, DEFAULT_FILTERS_LIMIT)}
-            items={ingredientItems}
-            onClickCheckbox={onSelectIngredient}
-            selected={selectedIngredientsIds}
+          <Input
+            type="number"
+            min={100}
+            max={1000}
+            placeholder="1000"
+            value={String(filters.prices.priceTo)}
+            onChange={(e) => filters.setPrices('priceTo', Number(e.target.value))}
           />
-        </FilterSection>
+        </div>
+
+        <RangeSlider
+          min={0}
+          max={1000}
+          step={10}
+          value={[filters.prices.priceFrom || 0, filters.prices.priceTo || 1000]}
+          onValueChange={updatePrices}
+        />
       </div>
-    </aside>
+
+      <CheckboxFiltersGroup
+        title="Ингредиенты"
+        name="ingredients"
+        externalClass="mt-5"
+        limit={6}
+        defaultItems={items.slice(0, 6)}
+        items={items}
+        onClickCheckbox={filters.setSelectedIngredients}
+        selected={filters.selectedIngredients}
+      />
+    </div>
   );
 };

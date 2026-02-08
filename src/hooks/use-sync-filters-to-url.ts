@@ -13,7 +13,9 @@ type UseSyncFiltersToUrlParams = {
   ingredientIds: Set<string>;
 };
 
-const buildQueryParams = (params: UseSyncFiltersToUrlParams): FilterQueryParams => {
+const buildQueryParams = (
+  params: UseSyncFiltersToUrlParams,
+): FilterQueryParams => {
   const query: FilterQueryParams = {};
 
   if (params.price.from !== PRICE_FILTER.DEFAULT_FROM) {
@@ -33,7 +35,7 @@ const buildQueryParams = (params: UseSyncFiltersToUrlParams): FilterQueryParams 
   }
 
   return query;
-}
+};
 
 export const useSyncFiltersToUrl = (props: UseSyncFiltersToUrlParams) => {
   const { price, sizes, pizzaTypes, ingredientIds } = props;
@@ -42,7 +44,7 @@ export const useSyncFiltersToUrl = (props: UseSyncFiltersToUrlParams) => {
 
   useEffect(() => {
     const query = buildQueryParams({
-      price,
+      price: { from: price.from, to: price.to },
       sizes,
       pizzaTypes,
       ingredientIds,
@@ -50,5 +52,5 @@ export const useSyncFiltersToUrl = (props: UseSyncFiltersToUrlParams) => {
     const queryString = qs.stringify(query, { arrayFormat: "comma" });
     const url = queryString ? `${pathname}?${queryString}` : pathname;
     router.push(url, { scroll: false });
-  }, [price, sizes, pizzaTypes, ingredientIds, router, pathname]);
-}
+  }, [price.to, price.from, sizes, pizzaTypes, ingredientIds, router, pathname]);
+};

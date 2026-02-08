@@ -1,8 +1,7 @@
 import { Container, Filters, Title, TopBar } from "@/components/shared";
 import { ProductGroupList } from "@/components/shared/product-group-list/product-group-list";
-import { Api } from "@/services";
 
-export default async function Home() {
+export default function Home() {
   return (
     <>
       <Container externalClass="mt-10 ">
