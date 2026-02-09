@@ -8,3 +8,4 @@ export { FilterCheckbox } from "./filter-checkbox/filter-checkbox";
 export { Filters } from "./filters/filters";
 export { ProductCard } from "./product-card/product-card";
 export { SearchInput } from "./search-input/search-input";
+export { ProductImage } from "./product-image/product-image";
