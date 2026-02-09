@@ -52,5 +52,13 @@ export const useSyncFiltersToUrl = (props: UseSyncFiltersToUrlParams) => {
     const queryString = qs.stringify(query, { arrayFormat: "comma" });
     const url = queryString ? `${pathname}?${queryString}` : pathname;
     router.push(url, { scroll: false });
-  }, [price.to, price.from, sizes, pizzaTypes, ingredientIds, router, pathname]);
+  }, [
+    price.to,
+    price.from,
+    sizes,
+    pizzaTypes,
+    ingredientIds,
+    router,
+    pathname,
+  ]);
 };

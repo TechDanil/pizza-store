@@ -18,7 +18,7 @@ export const Filters: FunctionComponent<Props> = (props) => {
 
   const { ingredients, isLoading } = useIngredients();
   const filters = useFilters();
-  
+
   useSyncFiltersToUrl({
     price: { from: filters.prices.priceFrom, to: filters.prices.priceTo },
     sizes: filters.sizes,
@@ -26,15 +26,18 @@ export const Filters: FunctionComponent<Props> = (props) => {
     ingredientIds: filters.selectedIngredients,
   });
 
-  const items = ingredients.map((item) => ({ value: String(item.id), text: item.name }));
+  const items = ingredients.map((item) => ({
+    value: String(item.id),
+    text: item.name,
+  }));
 
   const updatePrices = (prices: number[]) => {
-    filters.setPrices('priceFrom', prices[0]);
-    filters.setPrices('priceTo', prices[1]);
+    filters.setPrices("priceFrom", prices[0]);
+    filters.setPrices("priceTo", prices[1]);
   };
 
   return (
-   <div className={className}>
+    <div className={className}>
       <Title text="Фильтрация" size="sm" externalClass="mb-5 font-bold" />
 
       <CheckboxFiltersGroup
@@ -44,8 +47,8 @@ export const Filters: FunctionComponent<Props> = (props) => {
         onClickCheckbox={filters.setPizzaTypes}
         selected={filters.pizzaTypes}
         items={[
-          { text: 'Тонкое', value: '1' },
-          { text: 'Традиционное', value: '2' },
+          { text: "Тонкое", value: "1" },
+          { text: "Традиционное", value: "2" },
         ]}
       />
 
@@ -56,9 +59,9 @@ export const Filters: FunctionComponent<Props> = (props) => {
         onClickCheckbox={filters.setSizes}
         selected={filters.sizes}
         items={[
-          { text: '20 см', value: '20' },
-          { text: '30 см', value: '30' },
-          { text: '40 см', value: '40' },
+          { text: "20 см", value: "20" },
+          { text: "30 см", value: "30" },
+          { text: "40 см", value: "40" },
         ]}
       />
 
@@ -71,7 +74,9 @@ export const Filters: FunctionComponent<Props> = (props) => {
             min={0}
             max={1000}
             value={String(filters.prices.priceFrom)}
-            onChange={(e) => filters.setPrices('priceFrom', Number(e.target.value))}
+            onChange={(e) =>
+              filters.setPrices("priceFrom", Number(e.target.value))
+            }
           />
           <Input
             type="number"
@@ -79,7 +84,9 @@ export const Filters: FunctionComponent<Props> = (props) => {
             max={1000}
             placeholder="1000"
             value={String(filters.prices.priceTo)}
-            onChange={(e) => filters.setPrices('priceTo', Number(e.target.value))}
+            onChange={(e) =>
+              filters.setPrices("priceTo", Number(e.target.value))
+            }
           />
         </div>
 
@@ -87,7 +94,10 @@ export const Filters: FunctionComponent<Props> = (props) => {
           min={0}
           max={1000}
           step={10}
-          value={[filters.prices.priceFrom || 0, filters.prices.priceTo || 1000]}
+          value={[
+            filters.prices.priceFrom || 0,
+            filters.prices.priceTo || 1000,
+          ]}
           onValueChange={updatePrices}
         />
       </div>

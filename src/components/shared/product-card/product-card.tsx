@@ -1,5 +1,6 @@
 import { Title } from "@/components/shared/title/title";
 import { Button } from "@/components/ui";
+import { Ingredient } from "@prisma/client";
 import { Plus } from "lucide-react";
 import Link from "next/link";
 import { FunctionComponent } from "react";
@@ -10,12 +11,13 @@ type Props = {
   price: number;
   imgUrl: string;
   externalClass?: string;
+  ingredients: Ingredient[];
 };
 
 const PLUS_ICON_SIZE = 20;
 
 export const ProductCard: FunctionComponent<Props> = (props) => {
-  const { id, name, price, imgUrl, externalClass } = props;
+  const { id, name, price, imgUrl, externalClass, ingredients } = props;
 
   return (
     <div className={externalClass}>
@@ -27,7 +29,9 @@ export const ProductCard: FunctionComponent<Props> = (props) => {
 
       <Title text={name} size="sm" externalClass="mb-1 mt-3 font-bold" />
 
-      <p className="text-sm text-gray-400">some ingredients</p>
+      <p className="text-sm text-gray-400">
+        {ingredients?.map((ingredient) => ingredient.name).join(", ")}
+      </p>
 
       <div className="flex justify-between items-center mt-4">
         <span className="text-[20px]">

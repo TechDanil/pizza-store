@@ -15,7 +15,10 @@ type QueryFilters = {
 } & Price;
 
 export const useFilters = () => {
-  const searchParams = useSearchParams() as unknown as Map<keyof QueryFilters, string>;
+  const searchParams = useSearchParams() as unknown as Map<
+    keyof QueryFilters,
+    string
+  >;
 
   const [selectedIngredients, { toggle: toggleIngredients }] = useSet(
     new Set<string>(searchParams.get("ingredients")?.split(",")),
@@ -36,7 +39,8 @@ export const useFilters = () => {
   );
 
   const [prices, setPrices] = useState<Price>({
-    priceFrom: Number(searchParams.get("priceFrom")) || PRICE_FILTER.DEFAULT_FROM,
+    priceFrom:
+      Number(searchParams.get("priceFrom")) || PRICE_FILTER.DEFAULT_FROM,
     priceTo: Number(searchParams.get("priceTo")) || PRICE_FILTER.DEFAULT_TO,
   });
 
