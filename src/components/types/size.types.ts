@@ -1,0 +1,1 @@
+export type Size = 20 | 30 | 40;
