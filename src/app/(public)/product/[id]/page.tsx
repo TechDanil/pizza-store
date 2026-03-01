@@ -1,4 +1,9 @@
-import { Container, GroupVariants, ProductImage, Title } from "@/components/shared";
+import {
+  Container,
+  GroupVariants,
+  ProductImage,
+  Title,
+} from "@/components/shared";
 import { prisma } from "@/prisma/prisma-client";
 import { notFound } from "next/navigation";
 
@@ -13,11 +18,6 @@ const ProductPage = async ({ params }: { params: Promise<{ id: string }> }) => {
     },
   });
 
-  const variants = product?.items.map((item) => ({
-    name: item.size,
-    value: item.size,
-  }));
-
   if (!product) {
     notFound();
   }
@@ -29,25 +29,29 @@ const ProductPage = async ({ params }: { params: Promise<{ id: string }> }) => {
 
         <div className="w-[490px] bg-[#fcfcfc] p-7 ">
           <Title text={product.name} size="lg" externalClass="font-extrabold" />
-          
+
           <p className="text-sm text-gray-400">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos.
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam,
+            quos.
           </p>
 
-          <GroupVariants selectedVariant="1" variants={[
-            {
-              name: 'Маленькая',
-              value: '1',
-            },
-            {
-              name: 'Средняя',
-              value: '2',
-            },
-            {
-              name: 'Большая',
-              value: '3',
-            },
-          ]}/>
+          <GroupVariants
+            selectedVariant="1"
+            variants={[
+              {
+                name: "Маленькая",
+                value: "1",
+              },
+              {
+                name: "Средняя",
+                value: "2",
+              },
+              {
+                name: "Большая",
+                value: "3",
+              },
+            ]}
+          />
         </div>
       </div>
     </Container>
