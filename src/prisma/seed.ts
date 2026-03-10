@@ -1,4 +1,4 @@
-import { generateProductItem } from "../lib";
+import { generateProductItem } from "../shared/lib";
 import { categories, ingredients, products } from "./constants";
 import { prisma } from "./prisma-client";
 import { hashSync } from "bcrypt";
