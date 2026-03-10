@@ -1,5 +1,5 @@
 import { Container } from "@/components/shared/container/container";
-import { cn } from "@/lib/utils";
+import { cn } from "@/shared/lib/utils";
 import { FunctionComponent } from "react";
 import Image from "next/image";
 import { Button } from "@/components/ui";
@@ -8,7 +8,7 @@ import Link from "next/link";
 import { SearchInput } from "@/components/shared";
 
 type Props = {
-  externalClass?: string;
+  className?: string;
 };
 
 const SHOPPING_CART_ICON_SIZE = 16;
@@ -17,11 +17,11 @@ const LOGO_WIDTH = 35;
 const LOGO_HEIGHT = 35;
 
 export const Header: FunctionComponent<Props> = (props) => {
-  const { externalClass } = props;
+  const { className } = props;
 
   return (
-    <header className={cn("border-b", externalClass)}>
-      <Container externalClass="flex items-center justify-between py-8">
+    <header className={cn("border-b", className)}>
+      <Container className="flex items-center justify-between py-8">
         <Link href="/">
           <div className="flex items-center gap-4">
             <Image

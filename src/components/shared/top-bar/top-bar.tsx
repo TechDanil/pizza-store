@@ -1,9 +1,9 @@
 import { Categories, Container, SortPopup } from "@/components/shared";
-import { cn } from "@/lib/utils";
+import { cn } from "@/shared/lib/utils";
 import { FunctionComponent } from "react";
 
 type Props = {
-  externalClass?: string;
+  className?: string;
 };
 
 const categories = [
@@ -17,16 +17,16 @@ const categories = [
 ];
 
 export const TopBar: FunctionComponent<Props> = (props) => {
-  const { externalClass } = props;
+  const { className } = props;
 
   return (
     <div
       className={cn(
         "sticky top-0 bg-white py-5 shadow-lg shadow-black/5 z-10",
-        externalClass,
+        className,
       )}
     >
-      <Container externalClass="flex items-center justify-between ">
+      <Container className="flex items-center justify-between ">
         <Categories categories={categories} />
         <SortPopup />
       </Container>

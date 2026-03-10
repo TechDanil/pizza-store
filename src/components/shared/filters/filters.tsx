@@ -5,7 +5,7 @@ import { Title } from "../title/title";
 import { FunctionComponent } from "react";
 import { RangeSlider } from "../range-slider/range-slider";
 import { CheckboxFiltersGroup } from "@/components/shared/checkbox-filters-group/checkbox-filters-group";
-import { useFilters, useIngredients, useSyncFiltersToUrl } from "@/hooks";
+import { useFilters, useIngredients, useSyncFiltersToUrl } from "@/shared/hooks";
 
 type Props = {
   className?: string;
@@ -38,12 +38,12 @@ export const Filters: FunctionComponent<Props> = (props) => {
 
   return (
     <div className={className}>
-      <Title text="Фильтрация" size="sm" externalClass="mb-5 font-bold" />
+      <Title text="Фильтрация" size="sm" className="mb-5 font-bold" />
 
       <CheckboxFiltersGroup
         title="Тип теста"
         name="pizzaTypes"
-        externalClass="mb-5"
+        className="mb-5"
         onClickCheckbox={filters.setPizzaTypes}
         selected={filters.pizzaTypes}
         items={[
@@ -55,7 +55,7 @@ export const Filters: FunctionComponent<Props> = (props) => {
       <CheckboxFiltersGroup
         title="Размеры"
         name="sizes"
-        externalClass="mb-5"
+        className="mb-5"
         onClickCheckbox={filters.setSizes}
         selected={filters.sizes}
         items={[
@@ -105,7 +105,7 @@ export const Filters: FunctionComponent<Props> = (props) => {
       <CheckboxFiltersGroup
         title="Ингредиенты"
         name="ingredients"
-        externalClass="mt-5"
+        className="mt-5"
         limit={6}
         defaultItems={items.slice(0, 6)}
         items={items}

@@ -17,7 +17,7 @@ type Props = {
   searchInputPlaceholder?: string;
   onClickCheckbox?: (id: string) => void;
   defaultSelectedItems?: Item[];
-  externalClass?: string;
+  className?: string;
   name?: string;
 };
 
@@ -30,7 +30,7 @@ export const CheckboxFiltersGroup: FunctionComponent<Props> = (props) => {
     selected,
     searchInputPlaceholder = "Search... ",
     defaultSelectedItems,
-    externalClass,
+    className,
     name,
     onClickCheckbox,
   } = props;
@@ -56,7 +56,7 @@ export const CheckboxFiltersGroup: FunctionComponent<Props> = (props) => {
 
   if (loading) {
     return (
-      <div className={externalClass}>
+      <div className={className}>
         <p className="font-bold mb-3">{title}</p>
 
         {Array.from({ length: limit }).map((_, index) => (
@@ -69,7 +69,7 @@ export const CheckboxFiltersGroup: FunctionComponent<Props> = (props) => {
   }
 
   return (
-    <div className={externalClass}>
+    <div className={className}>
       {title ? <p className="font-bold mb-3">{title}</p> : null}
 
       {showAll && (

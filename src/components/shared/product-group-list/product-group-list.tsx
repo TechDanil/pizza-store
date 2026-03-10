@@ -2,22 +2,22 @@
 
 import { ProductCard } from "@/components/shared";
 import { Title } from "@/components/shared/title/title";
-import { cn } from "@/lib/utils";
-import { useCategoryStore } from "@/store/category";
-// import { ProductWithRelations } from "@prisma/client";
+import { cn } from "@/shared/lib/utils";
+import { useCategoryStore } from "@/shared/store/category";
+import type { ProductWithRelations } from "@/shared/@types/prisma";
 import { FunctionComponent, useEffect } from "react";
 import { useIntersectionObserver } from "usehooks-ts";
 
 type Props = {
   title: string;
-  items: any[];
+  items: ProductWithRelations[];
   categoryId: number;
-  externalClass?: string;
+  className?: string;
   listClassName?: string;
 };
 
 export const ProductGroupList: FunctionComponent<Props> = (props) => {
-  const { title, items, categoryId, externalClass, listClassName } = props;
+  const { title, items, categoryId, className, listClassName } = props;
 
   console.log(items);
 
@@ -34,8 +34,8 @@ export const ProductGroupList: FunctionComponent<Props> = (props) => {
   });
 
   return (
-    <div className={externalClass} id={title} ref={ref}>
-      <Title text={title} size="lg" externalClass="font-extrabold mb-5" />
+    <div className={className} id={title} ref={ref}>
+      <Title text={title} size="lg" className="font-extrabold mb-5" />
 
       <div className={cn("grid grid-cols-3 gap-[50px]", listClassName)}>
         {items.map((product) => (

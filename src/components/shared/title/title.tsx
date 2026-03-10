@@ -5,7 +5,7 @@ type TitleSize = "xs" | "sm" | "md" | "lg" | "xl" | "2xl";
 
 type Props = {
   size?: TitleSize;
-  externalClass?: string;
+  className?: string;
   text: string;
 };
 
@@ -28,11 +28,11 @@ const mapClassNameBySize = {
 } as const;
 
 export const Title: FunctionComponent<Props> = (props) => {
-  const { size = "md", externalClass, text } = props;
+  const { size = "md", className, text } = props;
 
   return createElement(
     mapTagBySize[size],
-    { className: clsx(mapClassNameBySize[size], externalClass) },
+    { className: clsx(mapClassNameBySize[size], className) },
     text,
   );
 };

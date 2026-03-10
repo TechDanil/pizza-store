@@ -1,7 +1,7 @@
 "use client";
 
-import { cn } from "@/lib";
-import { Api } from "@/services";
+import { cn } from "@/shared/lib/utils";
+import { Api } from "@/shared/services/api-client";
 import { Product } from "@prisma/client";
 import { Search } from "lucide-react";
 import Link from "next/link";

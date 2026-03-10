@@ -16,13 +16,13 @@ export default async function Home() {
 
   return (
     <>
-      <Container externalClass="mt-10 ">
-        <Title text="Все пиццы" size="lg" externalClass="font-extrabold" />
+      <Container className="mt-10 ">
+        <Title text="Все пиццы" size="lg" className="font-extrabold" />
       </Container>
 
       <TopBar />
 
-      <Container externalClass="mt-10 pb-14">
+      <Container className="mt-10 pb-14">
         <div className="flex gap-[60px]">
           <div className="w-[250px]">
             <Filters />

@@ -1,16 +1,16 @@
 "use client";
 
-import { cn } from "@/lib/utils";
-import { useCategoryStore } from "@/store/category";
+import { cn } from "@/shared/lib/utils";
+import { useCategoryStore } from "@/shared/store/category";
 import { FunctionComponent } from "react";
 
 type categoriesProps = {
   categories: { id: number; name: string }[];
-  externalClass?: string;
+  className?: string;
 };
 
 export const Categories: FunctionComponent<categoriesProps> = (props) => {
-  const { categories, externalClass } = props;
+  const { categories, className } = props;
 
   const categoryActiveId = useCategoryStore((state) => state.activeId);
 
@@ -18,7 +18,7 @@ export const Categories: FunctionComponent<categoriesProps> = (props) => {
     <div
       className={cn(
         "inline-flex gap-1 bg-gray-50 p-1 rounded-2xl",
-        externalClass,
+        className,
       )}
     >
       {categories.map((category, index) => (

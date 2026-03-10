@@ -1,5 +1,5 @@
-import { cn } from "@/lib";
-import React from "react";
+import { cn } from "@/shared/lib";
+import { FunctionComponent } from "react";
 
 type Props = {
   className?: string;
@@ -7,11 +7,9 @@ type Props = {
   size: number;
 };
 
-export const ProductImage: React.FC<Props> = ({
-  imageUrl,
-  className,
-  size,
-}) => {
+export const ProductImage: FunctionComponent<Props> = (props) => {
+  const { className, imageUrl, size } = props;
+
   return (
     <div
       className={cn(

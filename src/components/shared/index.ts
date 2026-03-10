@@ -10,3 +10,4 @@ export { ProductCard } from "./product-card/product-card";
 export { SearchInput } from "./search-input/search-input";
 export { ProductImage } from "./product-image/product-image";
 export { GroupVariants } from "./group-variants/group-variants";
+export { ChooseProductModal } from "./modals/choose-product-modal";

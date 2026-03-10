@@ -1,6 +1,6 @@
 'use client';
 
-import { cn } from "@/lib";
+import { cn } from "@/shared/lib";
 import { FunctionComponent } from "react";
 
 type Variant = {
@@ -11,20 +11,20 @@ type Variant = {
 
 type Props = {
   variants: Variant[];
-  onClickVariant?: (variant: Variant['value']) => void;
+  onChooseVariant?: (variant: Variant['value']) => void;
   selectedVariant?: Variant['value'];
   className?: string;
 }
 
 export const GroupVariants: FunctionComponent<Props> = (props) => {
-  const { className, variants, onClickVariant, selectedVariant } = props;
+  const { className, variants, onChooseVariant, selectedVariant } = props;
 
   return (
     <div className={cn(className, 'flex justify-between bg-[#f3f3f7] rounded-3xl p-1 select-none')}>
       {variants.map((variant) => (
         <button
           key={variant.name}
-          onClick={() => onClickVariant?.(variant.value)}
+          onClick={() => onChooseVariant?.(variant.value)}
           className={cn(
             'flex items-center justify-center cursor-pointer h-[30px] px-5 flex-1 rounded-3xl transition-all duration-400 text-sm',
             {
