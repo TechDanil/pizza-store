@@ -8,7 +8,5 @@ type Props = {
 export const Container: FunctionComponent<Props> = (props) => {
   const { className, children } = props;
 
-  return (
-    <div className={cn("mx-auto max-w-7xl", className)}>{children}</div>
-  );
+  return <div className={cn("mx-auto max-w-7xl", className)}>{children}</div>;
 };

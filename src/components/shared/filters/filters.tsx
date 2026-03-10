@@ -5,7 +5,11 @@ import { Title } from "../title/title";
 import { FunctionComponent } from "react";
 import { RangeSlider } from "../range-slider/range-slider";
 import { CheckboxFiltersGroup } from "@/components/shared/checkbox-filters-group/checkbox-filters-group";
-import { useFilters, useIngredients, useSyncFiltersToUrl } from "@/shared/hooks";
+import {
+  useFilters,
+  useIngredients,
+  useSyncFiltersToUrl,
+} from "@/shared/hooks";
 
 type Props = {
   className?: string;

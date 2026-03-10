@@ -4,7 +4,7 @@ import { Ingredient } from "@prisma/client";
 import { Api } from "../services/api-client";
 
 export const useIngredients = () => {
-  const [ingredients,   setIngredients] = useState<Ingredient[]>([]);
+  const [ingredients, setIngredients] = useState<Ingredient[]>([]);
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {

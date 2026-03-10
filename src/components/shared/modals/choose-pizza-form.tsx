@@ -1,12 +1,17 @@
-'use client'
+"use client";
 
 import { FunctionComponent, useState } from "react";
 
-import { PizzaSize, pizzaSizes, PizzaType } from "@/app/constants/pizza";
+import {
+  PizzaSize,
+  pizzaSizes,
+  PizzaType,
+  pizzaTypes,
+} from "@/app/constants/pizza";
 import { GroupVariants, Title } from "@/components/shared";
 
 import { Button } from "@/components/ui";
-import { cn } from "@/shared/lib";  
+import { cn } from "@/shared/lib";
 import { Ingredient, ProductItem } from "@prisma/client";
 
 type Props = {
@@ -28,8 +33,12 @@ export const ChoosePizzaForm: FunctionComponent<Props> = (props) => {
   const [size, setSize] = useState<PizzaSize>(20);
   const [type, setType] = useState<PizzaType>(1);
 
-  const onChooseVariant = (variant: PizzaSize) => {
-    setSize(variant);
+  const handleChooseVariant = (variant: string) => {
+    setSize(Number(variant) as PizzaSize);
+  };
+
+  const handleChooseType = (variant: string) => {
+    setType(Number(variant) as PizzaType);
   };
 
   return (
@@ -41,11 +50,23 @@ export const ChoosePizzaForm: FunctionComponent<Props> = (props) => {
           className="relative left-2 top-2 transition-all z-10 duration-300 w-[350px] h-[350px]"
         />
       </div>
-  
+
       <div className="w-[490px] bg-[#f7f6f5] p-7">
         <Title text={name} size="md" className="font-extrabold mb-1" />
 
-        <GroupVariants variants={pizzaSizes} selectedVariant={String(size)} onChooseVariant={(variant: PizzaSize) => onChooseVariant(variant)} />
+        <div className="flex flex-col gap-4 mt-5">
+          <GroupVariants
+            variants={pizzaSizes}
+            selectedVariant={String(size)}
+            onChooseVariant={handleChooseVariant}
+          />
+          
+          <GroupVariants
+            variants={pizzaTypes}
+            selectedVariant={String(type)}
+            onChooseVariant={handleChooseType}
+          />
+        </div>
 
         <Button
           loading={loading}

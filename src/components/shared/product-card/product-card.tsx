@@ -30,7 +30,7 @@ export const ProductCard: FunctionComponent<Props> = (props) => {
         <Title text={name} size="sm" className="mb-1 mt-3 font-bold" />
 
         <p className="text-sm text-gray-400">
-          {ingredients.map((ingredient) => ingredient.name).join(', ')}
+          {ingredients.map((ingredient) => ingredient.name).join(", ")}
         </p>
 
         <div className="flex justify-between items-center mt-4">

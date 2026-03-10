@@ -1,18 +1,24 @@
+import { PizzaType } from "@/app/constants/pizza";
 const mapSize = {
   20: "Маленькая",
   30: "Средняя",
   40: "Большая",
-} as const 
+} as const;
 
 const mapPizzaType = {
   1: "Традиц ионное",
   2: "Тонкое",
-} as const
+} as const;
 
 export const pizzaSizes = Object.keys(mapSize).map(([name, value]) => ({
-  value, 
+  value,
   name,
-}))  
+}));
+
+export const pizzaTypes = Object.keys(mapPizzaType).map(([name, value]) => ({
+  value,
+  name,
+}));
 
 export type PizzaSize = keyof typeof mapSize;
 export type PizzaType = keyof typeof mapPizzaType;

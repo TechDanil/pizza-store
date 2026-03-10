@@ -16,7 +16,7 @@ export const ChooseProductForm: FunctionComponent<Props> = (props) => {
   const { imageUrl, name, price, loading, onSubmit, className } = props;
 
   return (
-    <div className={cn(className, 'flex flex-1')}>
+    <div className={cn(className, "flex flex-1")}>
       <div className="flex items-center justify-center flex-1 relative w-full">
         <img
           src={imageUrl}
@@ -31,7 +31,8 @@ export const ChooseProductForm: FunctionComponent<Props> = (props) => {
         <Button
           loading={loading}
           onClick={() => onSubmit?.()}
-          className="h-[55px] px-10 text-base rounded-[18px] w-full mt-10">
+          className="h-[55px] px-10 text-base rounded-[18px] w-full mt-10"
+        >
           Добавить в корзину за {price} ₽
         </Button>
       </div>
