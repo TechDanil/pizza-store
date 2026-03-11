@@ -1,4 +1,3 @@
-import { PizzaType } from "@/app/constants/pizza";
 const mapSize = {
   20: "Маленькая",
   30: "Средняя",
